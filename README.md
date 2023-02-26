@@ -1,5 +1,5 @@
 
-# Python API wrapper for Cloaker (github.com/spieglt/Cloaker) library
+# Python API wrapper for [Cloaker](github.com/spieglt/Cloaker) library
 
 A Python API wrapper on top of [spieglt/Cloaker](https://github.com/spieglt/Cloaker)'s encryption/decryption library written in Rust
 
