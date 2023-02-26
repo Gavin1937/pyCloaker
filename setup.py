@@ -69,12 +69,27 @@ class build_cloaker_lib(build_ext):
                 raise Exception('Cannot find rust in current machine.')
         except Exception as err:
             raise
-    
+
+# get descriptions
+description = 'Python API wrapper for Cloaker library'
+long_description = ''
+with open('README.md', 'r', encoding='utf-8') as file:
+    long_description = file.read()
+
+# load __version__.py
+version = {}
+with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
+    exec(file.read(), version)
+
 
 setup(
     name='pyCloaker',
     author='Gavin1937',
-    version='1.0',
+    description=description,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/Gavin1937/pyCloaker',
+    version=version['__version__'],
     packages=['pyCloaker'],
     cmdclass = {'build_ext': build_cloaker_lib},
     runtime_library_dirs=['Cloaker'],
