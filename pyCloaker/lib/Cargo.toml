@@ -1,0 +1,14 @@
+[package]
+name = "adapter"
+version = "4.0.0"
+authors = ["Theron Spiegl <tspiegl@gmail.com>"]
+edition = "2018"
+
+
+[lib]
+name = "adapter"
+path = "Cloaker/adapter/src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+cloaker = { path = "Cloaker/core" }

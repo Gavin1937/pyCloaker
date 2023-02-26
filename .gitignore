@@ -1,0 +1,21 @@
+
+# folders
+/tmp/
+/pyCloaker/__pycache__/
+/pyCloaker/lib/build/
+/pyCloaker/lib/Cloaker/
+/pyCloaker/libadapter/__pycache__/
+
+# files
+*main*
+*test*
+*tmp*
+*outfile*
+*.so
+*.lock
+*.jpg
+*.png
+
+
+# whitelist
+!/pyCloaker/lib/Cargo.toml
