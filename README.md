@@ -20,6 +20,10 @@ After you have all the requirements installed, simply run setup.py to compile an
 pip install setup.py
 ```
 
+* **Note**
+  * This package only compiled & installed on Ubuntu 22.04
+  * Windows and other os should be fine but unknown
+
 ## Usage
 
 **Note that this wrapper is strongly typed, so you should carefully check your variable types.**
