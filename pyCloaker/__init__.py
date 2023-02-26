@@ -5,3 +5,5 @@ from .pyCloaker import (
     pyCloakerCString,
     pyCloaker,
 )
+
+from .libadapter import libfilename

@@ -1,8 +1,12 @@
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from subprocess import check_call, check_output, STDOUT
+from pyCloaker import libfilename
 from pathlib import Path
 from shutil import copy, rmtree
+from sys import platform 
+import distutils.sysconfig
+from copy import deepcopy
 import re
 
 
@@ -35,10 +39,15 @@ class build_cloaker_lib(build_ext):
         ])
         
         # copy dll out
-        copy(buildpath/'release/libadapter.so', libpath)
+        dllpath = buildpath/'release'
+        if platform == 'win32':
+            dllpath = deepcopy([i for i in dllpath.rglob(libfilename)][0])
+        elif platform == 'linux':
+            dllpath = deepcopy([i for i in dllpath.rglob(libfilename)][0])
+        copy(dllpath, libpath)
         
         # avoid double compilation
-        # # cleanup build directory
+        # cleanup build directory
         # rmtree(buildpath)
         
         build_ext.run(self)
@@ -81,7 +90,15 @@ version = {}
 with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
     exec(file.read(), version)
 
+if platform == 'win32':
+    data_files = [(distutils.sysconfig.get_python_lib(),[f'pyCloaker/lib/{libfilename}'])]
+    package_data = {'pyCloaker':[f'pyCloaker/lib/{libfilename}']}
+elif platform == 'linux':
+    data_files = [(distutils.sysconfig.get_python_lib(),[f'pyCloaker/lib/{libfilename}'])]
+    package_data = {'pyCloaker':[f'pyCloaker/lib/{libfilename}']}
 
+
+# package settings
 setup(
     name='pyCloaker',
     author='Gavin1937',
@@ -92,5 +109,7 @@ setup(
     version=version['__version__'],
     packages=['pyCloaker'],
     cmdclass = {'build_ext': build_cloaker_lib},
+    data_files=data_files,
+    package_data=package_data,
     runtime_library_dirs=['Cloaker'],
 )

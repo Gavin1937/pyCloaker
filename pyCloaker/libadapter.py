@@ -1,29 +1,31 @@
 
-__all__ = ['adapter']
+__all__ = ['adapter', 'libfilename']
 
-from platform import system
+from sys import platform
 from pathlib import Path
 import ctypes
+from site import getsitepackages, getusersitepackages
 
 adapter = None
+libfilename = None
 
 # try loading library
 try:
-    print(Path().resolve())
+    # search for lib
     LIB_BASE = Path('pyCloaker/lib')
-    if not LIB_BASE.exists():
-        LIB_BASE = Path('lib')
-    if not LIB_BASE.exists():
-        raise Exception('Cannot find lib folder in \'./pyCloaker/lib\' or \'./lib\'.')
-    if system() == 'Windows':
-        LIB_PATH = LIB_BASE / 'adapter.dll'
-        if not LIB_PATH.exists():
-            LIB_PATH = LIB_BASE / 'libadapter.so'
-    else: # other os
-        LIB_PATH = LIB_BASE / 'libadapter.so'
-    if not LIB_PATH.exists():
-        raise Exception('Cannot find libadapter binary.')
+    possible_path = ['lib', './pyCloaker/lib', *getsitepackages(), getusersitepackages()]
+    for pp in possible_path:
+        pp = Path(pp)
+        lib = [i for i in pp.rglob('*adapter.so') if i.is_file()]
+        if len(lib) < 1 and platform == 'win32':
+            lib = [i for i in pp.rglob('*adapter.dll') if i.is_file()]
+            if len(lib) < 1:
+                raise Exception('Cannot find libadapter binary.')
+        elif len(lib) >= 1:
+            LIB_PATH = lib[0]
+            break
     
+    libfilename = LIB_PATH.name
     adapter = ctypes.cdll.LoadLibrary(LIB_PATH)
     
     
