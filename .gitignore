@@ -5,6 +5,7 @@
 /pyCloaker/lib/build/
 /pyCloaker/lib/Cloaker/
 /pyCloaker/libadapter/__pycache__/
+/*egg-info*/
 
 # files
 *main*
