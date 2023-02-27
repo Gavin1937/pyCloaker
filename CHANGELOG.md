@@ -1,5 +1,12 @@
 
-# Version 1.0 (Feb 26, 2023)
+# Version 1.0.1 (Feb 26, 2023)
 
-Initialize repository and implement first version.
+* add setup.py to install & compile package
+* add null pointer config checking
+* add defaultProgressCallbackFn
+* some minor tweaks
+
+# Version 1.0.0 (Feb 26, 2023)
+
+* initialize repository and implement first version.
 

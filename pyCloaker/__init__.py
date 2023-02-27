@@ -1,4 +1,6 @@
 
+from .__version__ import __version__
+
 from .pyCloaker import (
     pyCloakerMode,
     pyCloakerConfig,
