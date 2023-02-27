@@ -23,6 +23,9 @@ class pyCloakerConfig:
     
     def get(self) -> ctypes.c_void_p:
         return self.__config_ptr
+    
+    def isNull(self) -> bool:
+        return (self.__config_ptr == False)
 
 class pyCloakerCString:
     
@@ -84,6 +87,8 @@ class pyCloaker:
         Start configured Encryption/Decryption
         """
         if self.__typeCheck(config, pyCloakerConfig):
+            if config.isNull():
+                raise Exception('Input config is a null pointer.')
             return pyCloakerCString(adapter.start(config.get()))
     
     def destroyConfig(self, config:pyCloakerConfig):
