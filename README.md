@@ -5,6 +5,7 @@ A Python API wrapper on top of [spieglt/Cloaker](https://github.com/spieglt/Cloa
 
 ## Dependencies
 
+* [python](https://www.python.org/) version >= 3.8
 * [Cloaker](https://github.com/spieglt/Cloaker)
 
 ## Compile & Install
@@ -31,7 +32,8 @@ pip install setup.py
 ```py
 from pyCloaker import (
     pyCloaker, pyCloakerMode,
-    pyCloakerConfig, pyCloakerCString
+    pyCloakerConfig, pyCloakerCString,
+    defaultProgressCallbackFn
 )
 
 def callback(percentage):
@@ -48,7 +50,7 @@ outFilename = 'outfile'
 config:pyCloakerConfig = cloaker.makeConfig(
     mode, password,
     filename, outFilename,
-    callback
+    callback # or leave it empty, makeConfig() will use defaultProgressCallbackFn()
 )
 
 # start encryption/decryption

@@ -36,6 +36,10 @@ class pyCloakerCString:
     def get(self) -> ctypes.c_void_p:
         return self.__data_ptr
 
+def defaultProgressCallbackFn(percentage):
+    print(f'Progress: {str(percentage).rjust(3)}%')
+
+
 class pyCloaker:
     
     def __init__(self):
@@ -48,7 +52,8 @@ class pyCloaker:
     def makeConfig(self,
         mode:Union[pyCloakerMode,int],
         password:str, filename:str,
-        outFilename:str, progressCallbackFn
+        outFilename:str,
+        progressCallbackFn = defaultProgressCallbackFn
     ) -> pyCloakerConfig:
         """
         Configure a new Encryption/Decryption
@@ -59,6 +64,7 @@ class pyCloaker:
             outFilename          => str output filename
             progressCallbackFn   => callable callback function for display progress
                                     this function should take one int only.
+                                    default callback function defaultProgressCallbackFn()
         """
         
         # checking

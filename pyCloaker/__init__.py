@@ -4,6 +4,7 @@ from .pyCloaker import (
     pyCloakerConfig,
     pyCloakerCString,
     pyCloaker,
+    defaultProgressCallbackFn,
 )
 
 from .libadapter import libfilename
