@@ -33,11 +33,14 @@ pip install setup.py
 from pyCloaker import (
     pyCloaker, pyCloakerMode,
     pyCloakerConfig, pyCloakerCString,
-    defaultProgressCallbackFn
+    defaultProgressCallbackFn,
+    __version__,
 )
 
 def callback(percentage):
     print(f'{str(percentage).zfill(3)}%')
+
+print(f'pyCloaker version: {__version__}')
 
 # initialize api
 cloaker = pyCloaker()
