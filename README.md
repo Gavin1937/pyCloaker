@@ -63,6 +63,7 @@ config:pyCloakerConfig = cloaker.makeConfig(
 
 # start encryption/decryption
 cstr:pyCloakerCString = cloaker.start(config)
+print(cstr.getStr()) # cloaker returned message
 
 # cleanup
 cloaker.destroyConfig(config)

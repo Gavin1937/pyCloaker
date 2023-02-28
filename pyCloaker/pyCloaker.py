@@ -18,8 +18,8 @@ def pyCloakerModeToCInt(mode:Union[pyCloakerMode,int]) -> ctypes.c_int:
 class pyCloakerConfig:
     
     def __init__(self, value:ctypes.c_void_p):
-        self.__name__ = 'pyCloakerConfig'
-        self.__config_ptr = value
+        self.__name__:str = 'pyCloakerConfig'
+        self.__config_ptr:ctypes.c_void_p = value
     
     def get(self) -> ctypes.c_void_p:
         return self.__config_ptr
@@ -30,11 +30,14 @@ class pyCloakerConfig:
 class pyCloakerCString:
     
     def __init__(self, data:ctypes.c_void_p):
-        self.__name__ = 'pyCloakerCString'
-        self.__data_ptr = data
+        self.__name__:str = 'pyCloakerCString'
+        self.__data_ptr:ctypes.c_void_p = data
     
     def get(self) -> ctypes.c_void_p:
         return self.__data_ptr
+    
+    def getStr(self) -> str:
+        return ctypes.c_char_p(self.__data_ptr).value.decode('utf-8')
 
 def defaultProgressCallbackFn(percentage):
     print(f'Progress: {str(percentage).rjust(3)}%')
@@ -43,7 +46,7 @@ def defaultProgressCallbackFn(percentage):
 class pyCloaker:
     
     def __init__(self):
-        self.__name__ = 'pyCloaker'
+        self.__name__:str = 'pyCloaker'
         self.__callback_compiler = ctypes.CFUNCTYPE(
             ctypes.c_void_p, ctypes.c_int
         )

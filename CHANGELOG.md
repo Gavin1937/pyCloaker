@@ -3,6 +3,7 @@
 
 * fix libadapter binary searching in setup.py
 * fix setup.py for windows
+* some minor tweaks
 
 # Version 1.0.1 (Feb 26, 2023)
 
