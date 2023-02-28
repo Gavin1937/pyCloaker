@@ -26,7 +26,7 @@ python setup.py build_ext
 ```
 
 * **Note**
-  * This package only compiled & installed on Ubuntu 22.04
+  * This package have sucessfully compiled & installed on Ubuntu 22.04
   * In windows, this package can compile and install, but libadapter.start() may run into problem: "OSError: exception: access violation writing 0x0000000000000000"
   * Other os should be fine but never tested.
 
