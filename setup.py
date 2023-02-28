@@ -1,13 +1,28 @@
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from subprocess import check_call, check_output, STDOUT
-from pyCloaker import libfilename
 from pathlib import Path
 from shutil import copy, rmtree
 from sys import platform 
 import distutils.sysconfig
-from copy import deepcopy
 import re
+
+
+def findLibfileInDir(dir) -> str:
+    libfile = None
+    if platform == 'win32':
+        libfile = [f for f in dir.iterdir() if f.suffix == '.dll']
+        if len(libfile) == 0:
+            libfile = [f for f in dir.iterdir() if f.suffix == '.so']
+            if len(libfile) == 0:
+                raise Exception('Cannot find libadapter binary during setup.')
+        libfile:Path = libfile[0]
+    elif platform == 'linux':
+        libfile = [f for f in dir.iterdir() if f.suffix == '.so']
+        if len(libfile) == 0:
+            raise Exception('Cannot find libadapter binary during setup.')
+        libfile:Path = libfile[0]
+    return str(libfile.resolve())
 
 
 class build_cloaker_lib(build_ext):
@@ -40,11 +55,8 @@ class build_cloaker_lib(build_ext):
         
         # copy dll out
         dllpath = buildpath/'release'
-        if platform == 'win32':
-            dllpath = deepcopy([i for i in dllpath.rglob(libfilename)][0])
-        elif platform == 'linux':
-            dllpath = deepcopy([i for i in dllpath.rglob(libfilename)][0])
-        copy(dllpath, libpath)
+        libfile = findLibfileInDir(dllpath)
+        copy(libfile, libpath)
         
         # avoid double compilation
         # cleanup build directory
@@ -90,12 +102,14 @@ version = {}
 with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
     exec(file.read(), version)
 
+loclibpath = Path('pyCloaker/lib/')
+libfile = findLibfileInDir(loclibpath)
 if platform == 'win32':
-    data_files = [(distutils.sysconfig.get_python_lib(),[f'pyCloaker/lib/{libfilename}'])]
-    package_data = {'pyCloaker':[f'pyCloaker/lib/{libfilename}']}
+    data_files = [(distutils.sysconfig.get_python_lib(),[libfile])]
+    package_data = {'pyCloaker':[libfile]}
 elif platform == 'linux':
-    data_files = [(distutils.sysconfig.get_python_lib(),[f'pyCloaker/lib/{libfilename}'])]
-    package_data = {'pyCloaker':[f'pyCloaker/lib/{libfilename}']}
+    data_files = [(distutils.sysconfig.get_python_lib(),[libfile])]
+    package_data = {'pyCloaker':[libfile]}
 
 
 # package settings
