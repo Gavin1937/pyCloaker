@@ -14,9 +14,7 @@ def findLibfileInDir(dir) -> str:
     if platform == 'win32':
         libfile = [f for f in dir.iterdir() if f.suffix == '.dll']
         if len(libfile) == 0:
-            libfile = [f for f in dir.iterdir() if f.suffix == '.so']
-            if len(libfile) == 0:
-                raise Exception('Cannot find libadapter binary during setup.')
+            raise Exception('Cannot find libadapter binary during setup.')
         libfile:Path = libfile[0]
     elif platform == 'linux':
         libfile = [f for f in dir.iterdir() if f.suffix == '.so']
@@ -112,8 +110,8 @@ with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
 
 # set data_file & package_data
 if platform == 'win32':
-    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/adapter.dll', 'pyCloaker/lib/libadapter.so'])]
-    package_data = {'pyCloaker':['pyCloaker/lib/adapter.dll', 'pyCloaker/lib/libadapter.so']}
+    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/adapter.dll'])]
+    package_data = {'pyCloaker':['pyCloaker/lib/adapter.dll']}
 elif platform == 'linux':
     data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/libadapter.so'])]
     package_data = {'pyCloaker':['pyCloaker/lib/libadapter.so']}

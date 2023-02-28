@@ -14,14 +14,18 @@ try:
     # search for lib
     LIB_BASE = Path('pyCloaker/lib')
     possible_path = ['lib', './pyCloaker/lib', *getsitepackages(), getusersitepackages()]
+    suffix = None
+    if platform == 'win32':
+        suffix = '.dll'
+    elif platform == 'linux':
+        suffix = '.so'
     for pp in possible_path:
         pp = Path(pp)
-        lib = [i for i in pp.rglob('*adapter.so') if i.is_file()]
-        if len(lib) < 1 and platform == 'win32':
-            lib = [i for i in pp.rglob('*adapter.dll') if i.is_file()]
-            if len(lib) < 1:
-                raise Exception('Cannot find libadapter binary.')
-        elif len(lib) >= 1:
+        
+        lib = [i for i in pp.rglob('*adapter'+suffix) if i.is_file()]
+        if len(lib) < 1:
+            raise Exception('Cannot find libadapter binary.')
+        else:
             LIB_PATH = lib[0]
             break
     
