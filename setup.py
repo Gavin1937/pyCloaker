@@ -1,5 +1,6 @@
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
+from setuptools.command.install import install
 from subprocess import check_call, check_output, STDOUT
 from pathlib import Path
 from shutil import copy, rmtree
@@ -91,6 +92,13 @@ class build_cloaker_lib(build_ext):
         except Exception as err:
             raise
 
+class Build_ext_first(install):
+    def run(self):
+        self.run_command("build_ext")
+        return install.run(self)
+
+
+# generate package metadata
 # get descriptions
 description = 'Python API wrapper for Cloaker library'
 long_description = ''
@@ -102,14 +110,13 @@ version = {}
 with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
     exec(file.read(), version)
 
-loclibpath = Path('pyCloaker/lib/')
-libfile = findLibfileInDir(loclibpath)
+# set data_file & package_data
 if platform == 'win32':
-    data_files = [(distutils.sysconfig.get_python_lib(),[libfile])]
-    package_data = {'pyCloaker':[libfile]}
+    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/adapter.dll', 'pyCloaker/lib/libadapter.so'])]
+    package_data = {'pyCloaker':['pyCloaker/lib/adapter.dll', 'pyCloaker/lib/libadapter.so']}
 elif platform == 'linux':
-    data_files = [(distutils.sysconfig.get_python_lib(),[libfile])]
-    package_data = {'pyCloaker':[libfile]}
+    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/libadapter.so'])]
+    package_data = {'pyCloaker':['pyCloaker/lib/libadapter.so']}
 
 
 # package settings
@@ -122,7 +129,7 @@ setup(
     url='https://github.com/Gavin1937/pyCloaker',
     version=version['__version__'],
     packages=['pyCloaker'],
-    cmdclass = {'build_ext': build_cloaker_lib},
+    cmdclass = {'build_ext': build_cloaker_lib, 'install': Build_ext_first},
     data_files=data_files,
     package_data=package_data,
     runtime_library_dirs=['Cloaker'],
