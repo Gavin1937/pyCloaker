@@ -24,6 +24,7 @@ pip install setup.py
 * **Note**
   * This package only compiled & installed on Ubuntu 22.04
   * Windows and other os should be fine but unknown
+    * In windows, this package can compile and install, but libadapter.start may run into problem: "OSError: exception: access violation writing 0x0000000000000000"
 
 ## Usage
 

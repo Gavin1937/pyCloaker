@@ -14,23 +14,24 @@ try:
     # search for lib
     LIB_BASE = Path('pyCloaker/lib')
     possible_path = ['lib', './pyCloaker/lib', *getsitepackages(), getusersitepackages()]
-    suffix = None
+    possible_name = None
     if platform == 'win32':
-        suffix = '.dll'
+        possible_name = ['adapter.dll']
     elif platform == 'linux':
-        suffix = '.so'
-    for pp in possible_path:
-        pp = Path(pp)
-        
-        lib = [i for i in pp.rglob('*adapter'+suffix) if i.is_file()]
-        if len(lib) < 1:
-            raise Exception('Cannot find libadapter binary.')
-        else:
-            LIB_PATH = lib[0]
-            break
+        possible_name = ['libadapter.so']
+    possibles_to_check = [Path(i)/j for i in possible_path for j in possible_name]
+    
+    for pp in possibles_to_check:
+        if not pp.exists():
+            continue
+        LIB_PATH = pp
+        break
     
     libfilename = LIB_PATH.name
-    adapter = ctypes.cdll.LoadLibrary(LIB_PATH)
+    if platform == 'win32':
+        adapter = ctypes.WinDLL(str(LIB_PATH.resolve()))
+    elif platform == 'linux':
+        adapter = ctypes.CDLL(str(LIB_PATH.resolve()))
     
     
     # cloaker c adapter api
