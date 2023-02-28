@@ -15,16 +15,20 @@ A Python API wrapper on top of [spieglt/Cloaker](https://github.com/spieglt/Cloa
   * [rust](https://www.rust-lang.org/)
   * [cargo](https://doc.rust-lang.org/cargo/)
 
-After you have all the requirements installed, simply run setup.py to compile and install.
+After you install all the requirements, simply use setup.py to compile and install.
 
 ```sh
-pip install setup.py
+pip install .
+
+# or build cloaker first to ensure it works
+
+python setup.py build_ext
 ```
 
 * **Note**
   * This package only compiled & installed on Ubuntu 22.04
-  * Windows and other os should be fine but unknown
-    * In windows, this package can compile and install, but libadapter.start may run into problem: "OSError: exception: access violation writing 0x0000000000000000"
+  * In windows, this package can compile and install, but libadapter.start() may run into problem: "OSError: exception: access violation writing 0x0000000000000000"
+  * Other os should be fine but never tested.
 
 ## Usage
 
