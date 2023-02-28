@@ -11,7 +11,7 @@ libfilename = None
 
 # try loading library
 try:
-    # search for lib
+    # search for lib binary
     LIB_BASE = Path('pyCloaker/lib')
     possible_path = ['lib', './pyCloaker/lib', *getsitepackages(), getusersitepackages()]
     possible_name = None
@@ -19,13 +19,18 @@ try:
         possible_name = ['adapter.dll']
     elif platform == 'linux':
         possible_name = ['libadapter.so']
-    possibles_to_check = [Path(i)/j for i in possible_path for j in possible_name]
+    possibles_to_check = []
+    for p in possible_path:
+        for n in possible_name:
+            possibles_to_check = [f for f in Path(p).rglob(n) if f.is_file()]
     
+    LIB_PATH = None
     for pp in possibles_to_check:
         if not pp.exists():
             continue
-        LIB_PATH = pp
-        break
+        else:
+            LIB_PATH = pp
+            break
     
     libfilename = LIB_PATH.name
     if platform == 'win32':

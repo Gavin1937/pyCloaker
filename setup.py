@@ -110,11 +110,11 @@ with open('./pyCloaker/__version__.py', 'r', encoding='utf-8') as file:
 
 # set data_file & package_data
 if platform == 'win32':
-    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/adapter.dll'])]
-    package_data = {'pyCloaker':['pyCloaker/lib/adapter.dll']}
+    data_files = [(distutils.sysconfig.get_python_lib(),['./pyCloaker/lib/adapter.dll'])]
+    package_data = {'pyCloaker':['./pyCloaker/lib/*.dll']}
 elif platform == 'linux':
-    data_files = [(distutils.sysconfig.get_python_lib(),['pyCloaker/lib/libadapter.so'])]
-    package_data = {'pyCloaker':['pyCloaker/lib/libadapter.so']}
+    data_files = [(distutils.sysconfig.get_python_lib(),['./pyCloaker/lib/libadapter.so'])]
+    package_data = {'pyCloaker':['./pyCloaker/lib/*.so']}
 
 
 # package settings
