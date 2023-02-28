@@ -23,6 +23,10 @@ try:
     for p in possible_path:
         for n in possible_name:
             possibles_to_check = [f for f in Path(p).rglob(n) if f.is_file()]
+            if len(possibles_to_check) >= 1:
+                break
+        if len(possibles_to_check) >= 1:
+            break
     
     LIB_PATH = None
     for pp in possibles_to_check:
