@@ -65,8 +65,8 @@ class pyCloaker:
             password             => str password
             filename             => str input filename
             outFilename          => str output filename
-            progressCallbackFn   => callable callback function for display progress
-                                    this function should take one int only.
+            progressCallbackFn   => callable callback function for displaying progress
+                                    this function should take one int parameter and return void/None.
                                     default callback function defaultProgressCallbackFn()
         """
         
@@ -113,6 +113,76 @@ class pyCloaker:
         """
         if self.__typeCheck(cstring, pyCloakerCString):
             adapter.destroyCString(cstring.get())
+    
+    def encrypt(self, password:str, filename:str, outFilename:str) -> bool:
+        """
+        Do encryption in one call.
+        Abstraction on top of existing rust api.
+        Param:
+            password             => str password
+            filename             => str input filename
+            outFilename          => str output filename
+        Returns:
+            if success, return True
+            else, return False
+        """
+        try:
+            # create config
+            mode = pyCloakerMode.Encrypt
+            config:pyCloakerConfig = self.makeConfig(
+                mode, password,
+                filename, outFilename
+            )
+            if config.isNull():
+                self.destroyConfig(config)
+                return False
+            
+            # encrypt
+            cstr:pyCloakerCString = self.start(config)
+            print(cstr.getStr())
+            
+            # cleanup
+            self.destroyConfig(config)
+            self.destroyCString(cstr)
+        except Exception as err:
+            print(err)
+            raise
+        return True
+    
+    def decrypt(self, password:str, filename:str, outFilename:str) -> bool:
+        """
+        Do decryption in one call.
+        Abstraction on top of existing rust api.
+        Param:
+            password             => str password
+            filename             => str input filename
+            outFilename          => str output filename
+        Returns:
+            if success, return True
+            else, return False
+        """
+        try:
+            # create config
+            mode = pyCloakerMode.Decrypt
+            config:pyCloakerConfig = self.makeConfig(
+                mode, password,
+                filename, outFilename
+            )
+            if config.isNull():
+                self.destroyConfig(config)
+                return False
+            
+            # decrypt
+            cstr:pyCloakerCString = self.start(config)
+            print(cstr.getStr())
+            
+            # cleanup
+            self.destroyConfig(config)
+            self.destroyCString(cstr)
+        except Exception as err:
+            print(err)
+            raise
+        return True
     
     
     # private helper functions

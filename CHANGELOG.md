@@ -1,4 +1,8 @@
 
+# Version 1.0.2 (Mar 4, 2023)
+
+* add abstraction functions on top of existing rust api
+
 # Version 1.0.2 (Feb 27, 2023)
 
 * fix libadapter binary searching in setup.py

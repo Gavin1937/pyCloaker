@@ -34,6 +34,33 @@ python setup.py build_ext
 
 **Note that this wrapper is strongly typed, so you should carefully check your variable types.**
 
+**Easy usage example showed two abstraction functions on top of Complex usage example**
+
+### Easy way
+
+```py
+from pyCloaker import (
+  pyCloaker,
+  __version__
+)
+
+print(f'pyCloaker version: {__version__}')
+
+# initialize api
+cloaker = pyCloaker()
+
+# setup config
+password = '1234'
+filename = 'img.jpg'
+outFilename = 'outfile'
+
+# encrypt or decrypt
+cloaker.encrypt(password, filename, outFilename)
+# cloaker.decrypt(password, filename, outFilename)
+```
+
+### Complex way (you get more control)
+
 ```py
 from pyCloaker import (
     pyCloaker, pyCloakerMode,
@@ -42,7 +69,10 @@ from pyCloaker import (
     __version__,
 )
 
-def callback(percentage):
+# callback function for displaying progress
+# This function should take one int parameter
+# and return void/None.
+def callback(percentage) -> None:
     print(f'{str(percentage).zfill(3)}%')
 
 print(f'pyCloaker version: {__version__}')
